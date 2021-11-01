@@ -102,7 +102,6 @@
                             <div class="form-group row last">
                               <label class="col-md-4 label-control">Category</label>
                               <div class="col-md-8">
-                                <!---
                               	<select class="form-control" id="category_id" name="category_id">
                               		<option selected disabled>Select Category</option>
                               		@foreach($category as $cat)
@@ -111,8 +110,7 @@
 	                            	</option>
 	                            	@endforeach
                               	</select>
-                                --->
-                                <input type="text" readonly id="category_id" class="form-control" name="category_id">
+                                <!-- <input type="text" readonly id="category_id" class="form-control" name="category_id"> -->
                                 
                               </div>
                             </div>
@@ -224,9 +222,55 @@
 
 @section('scripts')
 
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-    
+    <!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script> -->
     <script>
+    $(document).ready(function(){
+
+      var cat_options     = $('#category_id option');
+      var subcat_options  = $('#subcategory_id option');
+      var unit_options    = $('#unit_id option');
+
+      $('#product_name').change(function() {
+        var pid =   $(this).find(':selected')[0].value;
+        $.ajax({
+          type: 'GET',
+          url: 'get-product/'+pid,
+          // data: {id : pid},
+          dataType: 'json',
+          success: function(data) {
+            $.each(data, function(key, resp) {
+              
+              // Select category
+              $( cat_options ).each(function( index ) {
+                var cat_option_id = $(this).val();
+                if(cat_option_id == resp.cat_id) {
+                  $(this).prop("selected", true);
+                }
+              });
+              
+              // Select sub-category
+              $( subcat_options ).each(function( index ) {
+                var subcat_option_id = $(this).val();
+                if(subcat_option_id == resp.sub_cat_id) {
+                  $(this).prop("selected", true);
+                }
+              });
+              
+              // Select unit
+              $( unit_options ).each(function( index ) {
+                var unit_option_id = $(this).val();
+                if(unit_option_id == resp.unit_id) {
+                  $(this).prop("selected", true);
+                }
+              });
+
+            });
+          }
+        });
+      });
+    });
+    </script>
+    <!-- <script>
       $(document).ready(function(){
      
      $('#product_name').on('change', function() {
@@ -251,7 +295,7 @@
             }
         });
     });
-    </script>
+    </script> -->
 
 
   <script type="text/javascript">

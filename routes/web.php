@@ -158,6 +158,9 @@ Route::group(['prefix' => 'mills', 'middleware' => 'auth'], function(){
 	
 	Route::get('/showproductdetails/{product_name}',[EnquiriesController::class,'showproductdetails']);
 
+	// Auto select values based on selected product in enquiries module
+	Route::get('get-product/{product_id}', [EnquiriesController::class,'getProduct']);
+
 /*
 	Route::get('/ajax-unit/{id}',function (Request $request) {
 		dd($request->all());

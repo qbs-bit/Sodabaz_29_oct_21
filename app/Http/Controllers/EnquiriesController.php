@@ -212,4 +212,10 @@ class EnquiriesController extends Controller
         return json_encode($products);
     }
 
+    public function getProduct($product_id) {
+
+        $product  = Product::where('id', $product_id)->get(['cat_id', 'sub_cat_id', 'unit_id']);
+        return json_encode($product);
+    }
+
 }
